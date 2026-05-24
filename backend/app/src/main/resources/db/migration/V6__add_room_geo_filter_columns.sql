@@ -1,0 +1,4 @@
+ALTER TABLE rooms
+	ADD COLUMN center_lat DOUBLE PRECISION,
+	ADD COLUMN center_lon DOUBLE PRECISION,
+	ADD COLUMN max_distance_meters INTEGER;

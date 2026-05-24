@@ -1,0 +1,121 @@
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  border-bottom: 1px solid var(--border);
+  background: var(--header-bg);
+  backdrop-filter: blur(8px);
+}
+
+.app-header__inner {
+  width: 100%;
+  margin: 0;
+  padding-block: 0.75rem;
+  padding-inline: max(0.75rem, env(safe-area-inset-left)) max(0.75rem, env(safe-area-inset-right));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+.app-header__left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.app-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.app-header__nav-link {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.app-header__nav-link:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.app-header__brand {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.app-header__brand:hover {
+  color: var(--accent);
+}
+
+.app-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.app-header__user {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-header__user--link {
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.app-header__user--link:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.app-header__muted {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.app-header__btn-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #fff;
+  background: var(--accent);
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.app-header__btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.app-header__btn-secondary {
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.app-header__btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}

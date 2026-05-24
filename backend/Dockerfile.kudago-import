@@ -1,0 +1,18 @@
+FROM eclipse-temurin:17-jdk-jammy AS builder
+WORKDIR /workspace
+COPY gradlew gradlew.bat settings.gradle build.gradle ./
+COPY gradle gradle
+COPY kudago-import-service kudago-import-service
+COPY auth auth
+COPY voting voting
+COPY app/src/main/resources/db/migration kudago-import-service/src/main/resources/db/migration/
+RUN chmod +x gradlew \
+  && ./gradlew :kudago-import-service:bootJar -x test --no-daemon
+
+FROM eclipse-temurin:17-jre-jammy
+WORKDIR /app
+RUN groupadd -r -g 1001 app && useradd -r -u 1001 -g app app
+COPY --from=builder /workspace/kudago-import-service/build/libs/*.jar app.jar
+USER app
+EXPOSE 8081
+ENTRYPOINT ["java", "-jar", "app.jar"]

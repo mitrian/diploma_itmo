@@ -1,0 +1,12 @@
+rootProject.name = 'diploma'
+
+include 'auth'
+include 'voting'
+
+if (file('kudago-import-service').exists()) {
+	include 'kudago-import-service'
+}
+if (file('app').exists()) {
+	include 'history'
+	include 'app'
+}

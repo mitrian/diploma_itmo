@@ -1,0 +1,6 @@
+CREATE TABLE room_participants (
+	id BIGSERIAL PRIMARY KEY,
+	room_id BIGINT NOT NULL REFERENCES rooms (id) ON DELETE CASCADE,
+	user_id BIGINT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+	UNIQUE (room_id, user_id)
+);

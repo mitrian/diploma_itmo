@@ -1,0 +1,77 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME:-diploma}
+      POSTGRES_USER: ${DB_USER:-diploma}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env (see .env.example)}
+    volumes:
+      - diploma-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports:
+      - '${POSTGRES_PUBLISH_PORT:-5432}:5432'
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      DB_HOST: postgres
+      DB_PORT: '5432'
+      DB_NAME: ${DB_NAME:-diploma}
+      DB_USER: ${DB_USER:-diploma}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env (Base64, see .env.example)}
+      JWT_TTL_SECONDS: ${JWT_TTL_SECONDS:-86400}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - '${BACKEND_PUBLISH_PORT:-8080}:8080'
+
+  kudago-import:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.kudago-import
+    environment:
+      DB_HOST: postgres
+      DB_PORT: '5432'
+      DB_NAME: ${DB_NAME:-diploma}
+      DB_USER: ${DB_USER:-diploma}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      DIPLOMA_KUDAGOIMPORT_HTTPIMPORTTOKEN: ${DIPLOMA_KUDAGOIMPORT_HTTPIMPORTTOKEN:-dev-kudago-import-diploma-local}
+      DIPLOMA_KUDAGOIMPORT_CENTERLAT: ${DIPLOMA_KUDAGOIMPORT_CENTERLAT:-59.956346}
+      DIPLOMA_KUDAGOIMPORT_CENTERLON: ${DIPLOMA_KUDAGOIMPORT_CENTERLON:-30.309968}
+      DIPLOMA_KUDAGOIMPORT_RADIUSMETERS: ${DIPLOMA_KUDAGOIMPORT_RADIUSMETERS:-4000}
+      DIPLOMA_KUDAGOIMPORT_SCHEDULEDIMPORTENABLED: ${DIPLOMA_KUDAGOIMPORT_SCHEDULEDIMPORTENABLED:-true}
+      DIPLOMA_KUDAGOIMPORT_SCHEDULEDIMPORTCRON: ${DIPLOMA_KUDAGOIMPORT_SCHEDULEDIMPORTCRON:-0 0 4 1 * ?}
+      DIPLOMA_KUDAGOIMPORT_SCHEDULEDIMPORTZONE: ${DIPLOMA_KUDAGOIMPORT_SCHEDULEDIMPORTZONE:-Europe/Moscow}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    ports:
+      - '${KUDAGO_IMPORT_PUBLISH_PORT:-8081}:8081'
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    volumes:
+      # mkcert: ./scripts/gen-docker-ssl-mkcert.sh → docker/ssl/localhost.pem + localhost-key.pem
+      - ./docker/ssl:/etc/nginx/ssl:ro
+    ports:
+      - '${HTTP_PUBLISH_PORT:-80}:80'
+      - '${HTTPS_PUBLISH_PORT:-443}:443'
+
+volumes:
+  diploma-postgres-data:

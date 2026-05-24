@@ -1,0 +1,9 @@
+CREATE TABLE rooms (
+	id BIGSERIAL PRIMARY KEY,
+	code VARCHAR(31) NOT NULL UNIQUE,
+	password_hash VARCHAR(255) NOT NULL,
+	owner_id BIGINT NOT NULL REFERENCES users (id),
+	state VARCHAR(31) NOT NULL,
+	created_at TIMESTAMP NOT NULL,
+	updated_at TIMESTAMP NOT NULL
+);

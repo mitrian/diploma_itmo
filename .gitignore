@@ -1,0 +1,89 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+
+project_description_for_cursor_bundle/
+
+### Frontend (Vite + React) ###
+frontend/node_modules/
+frontend/dist/
+
+### Environment & secrets ###
+/.env
+backend/.env
+.env
+.env.*
+!.env.example
+
+### Python (вспомогательные скрипты) ###
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+
+### Backend tests (в репозитории остаются только модульные тесты этапа 1: voting/.../stageone/promotion/) ###
+backend/app/src/test/
+backend/auth/src/test/
+
+### Local DB reset helper (credentials via .env) ###
+backend/reset-db.sh
+
+### mkcert TLS for Docker nginx (generated locally) ###
+docker/ssl/*.pem
+
+/docs/
