@@ -68,7 +68,7 @@ backend/.env
 .env.*
 !.env.example
 
-### Python (вспомогательные скрипты) ###
+### Вспомогательные скрипты ###
 __pycache__/
 *.py[cod]
 *$py.class
@@ -76,7 +76,7 @@ __pycache__/
 .venv/
 venv/
 
-### Backend tests (в репозитории остаются только модульные тесты этапа 1: voting/.../stageone/promotion/) ###
+### Extra backend tests ###
 backend/app/src/test/
 backend/auth/src/test/
 
